@@ -1,6 +1,6 @@
 ---
 - name: Copy Graylog configuration file
-  template:
+  ansible.builtin.template:
     src: "{{ graylog_host_config_file_path }}"
     dest: "{{ graylog_config_file_path }}"
     owner: root
@@ -11,7 +11,7 @@
   notify: Restart Graylog
 
 - name: Copy Graylog configuration file
-  template:
+  ansible.builtin.template:
     src: server.conf.j2
     dest: "{{ graylog_config_file_path }}"
     owner: root
@@ -20,7 +20,7 @@
   notify: Restart Graylog
 
 - name: Copy Graylog default configuration file (Ubuntu/Debian)
-  template:
+  ansible.builtin.template:
     src: graylog.default.j2
     dest: /etc/default/graylog-server
     owner: root
@@ -30,7 +30,7 @@
   notify: Restart Graylog
 
 - name: Copy Graylog default configuration file (CentOS/RHEL)
-  template:
+  ansible.builtin.template:
     src: graylog.default.j2
     dest: /etc/sysconfig/graylog-server
     owner: root

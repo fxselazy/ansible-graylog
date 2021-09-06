@@ -1,13 +1,13 @@
 ---
 - block:
   - name: Install Graylog (Ubuntu/Debian)
-    apt:
+    ansible.builtin.apt:
       name: "{{ graylog_package_name }}"
       state: present
       update_cache: yes
       
   - name: Ensure Graylog is enabled (Ubuntu/Debian)
-    systemd:
+    ansible.builtin.systemd:
       name: "{{ graylog_package_name }}"
       state: started
       enabled: yes
@@ -15,23 +15,23 @@
 
 - block:
   - name: Import Graylog GPG key
-    command: rpm --import /etc/pki/rpm-gpg/{{ graylog_gpg_key }}
+    ansible.builtin.command: rpm --import /etc/pki/rpm-gpg/{{ graylog_gpg_key }}
     when: graylog_offline_install
 
   - name: Install Graylog (CentOS/RHEL)
-    yum:
+    ansible.builtin.yum:
       name: "{{ graylog_package_name }}"
       state: present
 
   - name: Install Graylog dependencies (CentOS/RHEL)
-    yum:
+    ansible.builtin.yum:
       name: "{{ item }}"
       state: present
     with_items: 
       - "{{ graylog_rpm_dependencies }}"
 
   - name: 'Populate service facts'
-    service_facts:
+    ansible.builtin.service_facts:
 
   - name: Allow Graylog http ports (CentOS/RHEL)
     firewalld:
@@ -55,19 +55,19 @@
 
 - block:
   - name: "Generate systemd file"
-    template:
+    ansible.builtin.template:
       src: graylog.service.j2
       dest: /usr/lib/systemd/system/graylog-server.service
     notify: Restart Graylog
 
   - name: Ensure service is enabled
-    service:
+    ansible.builtin.service:
       name: "{{ graylog_service_name }}"
       enabled: yes
       state: started
 
   - name: Ensure directory exist
-    file:
+    ansible.builtin.file:
       path: "{{ item }}"
       state: directory
       owner: graylog 
@@ -78,7 +78,7 @@
       - "{{ graylog_default_dir }}"
 
   - name: Copy graylog files to new path
-    copy:
+    ansible.builtin.copy:
       src: /usr/share/graylog-server/
       dest: "{{ graylog_default_dir }}"
       owner: graylog

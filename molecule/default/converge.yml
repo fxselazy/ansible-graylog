@@ -1,0 +1,11 @@
+---
+- name: Run role
+  hosts: all
+  any_errors_fatal: true
+  become: true
+  become_method: su
+  roles:
+    - { role: opsta.java, when: graylog_all_in_one | default(false) }
+    - { role: opsta.mongodb, when: graylog_all_in_one | default(false) }
+    - { role: opsta.elasticsearch, when: graylog_all_in_one | default(false) }
+    - ansible-graylog
