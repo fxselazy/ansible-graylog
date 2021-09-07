@@ -3,12 +3,12 @@
   - name: Generate password secret of Graylog
     ansible.builtin.command: "pwgen -N 1 -s 96"
     register: graylog_secret_system_password
-  - debug: var=graylog_secret_system_password
+  - ansible.builtin.debug: var=graylog_secret_system_password
 
   - name: Generate admin password of Graylog
     ansible.builtin.shell: "echo -n {{ graylog_root_password }} | sha256sum | cut -d \" \" -f1"
     register: graylog_secret_root_password
-  - debug: var=graylog_secret_root_password
+  - ansible.builtin.debug: var=graylog_secret_root_password
   when: 
     (ansible_play_hosts |sort |first) == inventory_hostname
 

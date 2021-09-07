@@ -1,5 +1,5 @@
 ---
-graylog_all_in_one: false
+graylog_all_in_one: true
 
 graylog_version: 3.1
 graylog_package_name: graylog-server

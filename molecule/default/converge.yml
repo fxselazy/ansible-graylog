@@ -6,6 +6,6 @@
   become_method: su
   roles:
     - { role: opsta.java, when: graylog_all_in_one | default(false) }
-    - { role: opsta.mongodb, when: graylog_all_in_one | default(false) }
-    - { role: opsta.elasticsearch, when: graylog_all_in_one | default(false) }
+    - { role: ansible-mongodb, when: graylog_all_in_one | default(false) }
+    - { role: ansible-elasticsearch, when: graylog_all_in_one | default(false) }
     - ansible-graylog
